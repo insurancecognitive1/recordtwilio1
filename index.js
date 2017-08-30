@@ -15,6 +15,12 @@ app.post('/', function(req, res) {
  res.send(JSON.stringify(req.body.results));
 });
 
+app.get('/', function(req, res) {
+    console.log("reached get");
+    res.send("Thank you for visiting!");
+ 
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
