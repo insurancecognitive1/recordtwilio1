@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
+    console.log(JSON.stringify(req.body));
  res.send(JSON.stringify(req.body.results));
 });
 
