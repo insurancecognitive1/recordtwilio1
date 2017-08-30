@@ -1,0 +1,6 @@
+{
+  "name": "Node.js Twilio record",
+  "description": "record twilio calls using watson stt",
+  "repository": "https://github.com/insurancecognitive1/recordtwilio1",
+  "keywords": ["node", "express", "static"]
+}
