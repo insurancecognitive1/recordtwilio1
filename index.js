@@ -1,3 +1,4 @@
+"use strict";
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
@@ -61,6 +62,7 @@ app.post('/twilio', function(req, res) {
     //upload the audio to amazon s3 using polly
     function uploadaudio(rslt, done) {
         var chat_text = rslt;
+	    "use strict";
         let params = {
             'Text': chat_text,
             'OutputFormat': 'mp3',
@@ -103,7 +105,8 @@ app.post('/twilio', function(req, res) {
             if (err) {
                 gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
             } else {
-                gather.play("https://s3.amazonaws.com/twilioplay/chat_collife.mp3");
+                //gather.play("https://s3.amazonaws.com/twilioplay/chat_collife.mp3");
+		    gather.say(rslt);
                 res.writeHead(200, {
                     'Content-Type': 'text/xml'
                 });
