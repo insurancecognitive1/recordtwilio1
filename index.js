@@ -60,7 +60,7 @@ app.post('/twilio', function(req, res) {
     //upload the audio to amazon s3 using polly
     function uploadaudio(rslt, done) {
         var chat_text = rslt;
-        let params = {
+        var params = {
             'Text': chat_text,
             'OutputFormat': 'mp3',
             'VoiceId': 'Salli',
