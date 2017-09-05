@@ -1,9 +1,9 @@
-"use strict";
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const watson = require('watson-developer-cloud');
+const request = require('request');
 const cheerio = require('cheerio');
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const AWS = require('aws-sdk');
@@ -63,7 +63,7 @@ app.post('/twilio', function(req, res) {
     //upload the audio to amazon s3 using polly
     function uploadaudio(rslt, done) {
         var chat_text = rslt;
-        let params = {
+        var params = {
             'Text': chat_text,
             'OutputFormat': 'mp3',
             'VoiceId': 'Salli',
