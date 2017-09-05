@@ -100,7 +100,7 @@ app.post('/twilio', function(req, res) {
     var callfaq = true;
 
     if (twilio_content == "") {
-        rslt = "Hi! I am Claire. I can help with any questions you have on your Coloniallife policy, coverage, billing or claim";
+        rslt = "Hi! I am Claire. I can help with any questions you have on your Colonial Life policy, coverage, billing or claim";
 	console.log(rslt);
         uploadaudio(rslt, function(err, data) {
             if (err) {
@@ -129,7 +129,7 @@ app.post('/twilio', function(req, res) {
             if (err) {
                 console.log('error:', err);
                 callfaq = false;
-                rslt = "Sorry, I don't have a response for your question. Please ask questions on your Coloniallife policy, coverage, billing or claim";
+                rslt = "Sorry, I don't have a response for your question. Please ask questions on your Colonial Life policy, coverage, billing or claim";
                 uploadaudio(rslt, function(err, data) {
                     if (err) {
                         gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
@@ -193,7 +193,7 @@ app.post('/twilio', function(req, res) {
                             });
                         } else if (intents == "cs-help") {
                             callfaq = false;
-                            rslt = "Hello! I can help with any questions you have on your Coloniallife policy, coverage, billing or claim";
+                            rslt = "Hello! I can help with any questions you have on your Colonial Life policy, coverage, billing or claim";
                             uploadaudio(rslt, function(err, data) {
                                 if (err) {
                                     gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
@@ -222,7 +222,7 @@ app.post('/twilio', function(req, res) {
                             });
                         } else {
                             callfaq = false;
-                            rslt = "Sorry, I don't have a response for your question. Please ask questions on your Coloniallife policy, coverage, billing or claim";
+                            rslt = "Sorry, I don't have a response for your question. Please ask questions on your Colonial Life policy, coverage, billing or claim";
                             uploadaudio(rslt, function(err, data) {
                                 if (err) {
                                     gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
@@ -342,8 +342,8 @@ function get_faq_resp(url, intent, type, done){
         desc = $(desc).text();
       } 
       //Adding FAQ url along with description
-      desc = desc.replace("upper right corner of the page", "upper right corner of the page (https://www.coloniallife.com/FAQ.aspx)");
-      desc = desc.replace("upper right hand corner of the screen", "upper right hand corner of the screen (https://www.coloniallife.com/FAQ.aspx)");
+      desc = desc.replace("upper right corner of the page", "upper right corner of the page (https://www.coloniallife.com");
+      desc = desc.replace("upper right hand corner of the screen", "upper right hand corner of the screen (https://www.coloniallife.com)");
       done(null,desc);
     }else{
       done(error);
