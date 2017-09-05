@@ -136,7 +136,7 @@ app.post('/twilio', function(req, res) {
                     }
                 });
             } else {
-                //console.log("Complete response" +JSON.stringify(response, null, 2));
+                console.log("Complete response" +JSON.stringify(response, null, 2));
                 //res.send(JSON.stringify(response,null,2));
                 var resp = JSON.parse('{"result":' + JSON.stringify(response, null, 2) + '}');
                 if (!resp.result.hasOwnProperty("code")) {
@@ -334,7 +334,10 @@ function get_faq_resp(url, intent, type, done){
           desc = desc.substring(startindex);
         }
         desc = $(desc).text();
-      }
+      } 
+      //Adding FAQ url along with description
+      desc = desc.replace("upper right corner of the page", "upper right corner of the page (https://www.coloniallife.com/FAQ.aspx)");
+      desc = desc.replace("upper right hand corner of the screen", "upper right hand corner of the screen (https://www.coloniallife.com/FAQ.aspx)");
       done(null,desc);
     }else{
       done(error);
