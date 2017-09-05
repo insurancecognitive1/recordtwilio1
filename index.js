@@ -1,4 +1,3 @@
-"use strict";
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
@@ -49,7 +48,7 @@ app.get('/', function(req, res) {
 
 //get the request from Twilio and send the response
 app.post('/twilio', function(req, res) {
-
+    console.log(req.body);
     var twilio_content = "";
     if (req.body.hasOwnProperty("SpeechResult")) {
         twilio_content = req.body.SpeechResult;
@@ -101,8 +100,10 @@ app.post('/twilio', function(req, res) {
 
     if (twilio_content == "") {
         rslt = "Hi! I am Claire. I can help with any questions you have on your Coloniallife policy, coverage, billing or claim";
+	        console.log(rslt);
         uploadaudio(rslt, function(err, data) {
             if (err) {
+		    console.log("Error Polly: " +err);
                 gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
             } else {
                 //gather.play("https://s3.amazonaws.com/twilioplay/chat_collife.mp3");
