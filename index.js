@@ -28,10 +28,11 @@ var collife_faq_url = 'https://www.coloniallife.com/FAQ.aspx';
 app.set('port', (process.env.PORT || 5000));
 
 //app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({
+/*app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json());*/
+app.use(bodyParser());
 
 app.post('/', function(req, res) {
     console.log(JSON.stringify(req.body));
