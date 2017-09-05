@@ -1,4 +1,4 @@
-	    "use strict";
+"use strict";
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
@@ -8,7 +8,8 @@ const cheerio = require('cheerio');
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const AWS = require('aws-sdk');
 
-AWS.config.update({ accessKeyId: 'AKIAJKLQ5CU7VO4MA2EA', secretAccessKey: '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' });
+//AWS.config.update({ accessKeyId: 'AKIAJKLQ5CU7VO4MA2EA', secretAccessKey: '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' });
+AWS.config.update({ accessKeyId: 'AKIAJRIFYUL3RHZGQA5A', secretAccessKey: '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' });
 
 // Create an Polly client
 const Polly = new AWS.Polly({
@@ -62,7 +63,6 @@ app.post('/twilio', function(req, res) {
     //upload the audio to amazon s3 using polly
     function uploadaudio(rslt, done) {
         var chat_text = rslt;
-	    "use strict";
         let params = {
             'Text': chat_text,
             'OutputFormat': 'mp3',
@@ -101,14 +101,14 @@ app.post('/twilio', function(req, res) {
 
     if (twilio_content == "") {
         rslt = "Hi! I am Claire. I can help with any questions you have on your Coloniallife policy, coverage, billing or claim";
-	        console.log(rslt);
+	console.log(rslt);
         uploadaudio(rslt, function(err, data) {
             if (err) {
-		    console.log("Error Polly: " +err);
+		console.log("Error Polly: " +err);
                 gather.play("https://s3.amazonaws.com/twilioplay/pollyerror.mp3");
             } else {
-                //gather.play("https://s3.amazonaws.com/twilioplay/chat_collife.mp3");
-		    gather.say(rslt);
+                gather.play("https://s3.amazonaws.com/twilioplay/chat_collife.mp3");
+		//gather.say(rslt);
                 res.writeHead(200, {
                     'Content-Type': 'text/xml'
                 });
