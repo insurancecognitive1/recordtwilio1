@@ -1,5 +1,5 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const watson = require('watson-developer-cloud');
