@@ -46,7 +46,10 @@ app.post('/', function(req, res) {
 app.post('/v1/workspaces/270132c6-0104-4509-a64f-a21ef33fb47f/message', function(req, res) {
         console.log('Reached post message conversation');
 	console.log(JSON.stringify(req.body));
+	console.log('Sending data back');
+console.log(JSON.stringify({ "input": {"text":""},"context": req.body.context, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 	
  res.send(JSON.stringify({ "input": {"text":""},"context": req.body.context, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 
+	console.log('sent message');
 });
 
 app.get('/', function(req, res) {
