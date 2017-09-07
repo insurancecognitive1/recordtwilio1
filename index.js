@@ -38,12 +38,12 @@ app.use(bodyParser());
 
 app.post('/', function(req, res) {
     console.log(JSON.stringify(req.body));
- res.send(JSON.stringify(req.body.results));
+ res.send(JSON.stringify({ "input": {"text":""},"context":{}, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 
 });
 
 app.post('/v1/workspaces/270132c6-0104-4509-a64f-a21ef33fb47f/message', function(req, res) {
     console.log(JSON.stringify(req.body));
- res.send(JSON.stringify(req.body.results));
+ res.send();
 });
 
 app.get('/', function(req, res) {
