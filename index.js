@@ -8,8 +8,8 @@ const cheerio = require('cheerio');
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const AWS = require('aws-sdk');
 
-//AWS.config.update({ accessKeyId: 'AKIAJKLQ5CU7VO4MA2EA', secretAccessKey: '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' });
-AWS.config.update({ accessKeyId: 'AKIAJRIFYUL3RHZGQA5A', secretAccessKey: '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' });
+//Set this before running
+AWS.config.update({ accessKeyId: '', secretAccessKey: '' });
 
 // Create an Polly client
 const Polly = new AWS.Polly({
