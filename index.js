@@ -7,6 +7,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const AWS = require('aws-sdk');
+var apiai = require('apiai');
 
 //Set this before running
 AWS.config.update({ accessKeyId: '', secretAccessKey: '' });
@@ -611,6 +612,60 @@ function nw_get_faq_resp(url, intent, type, done){
     }
   }); //end of request
 }
+
+//Calling the Google API services
+app.post('/policyhelpdesktwilio',function(req, res){
+
+  var twilio_content = "";
+  if (req.body.hasOwnProperty("SpeechResult")){
+    twilio_content = req.body.SpeechResult;
+  }
+  const twiml = new VoiceResponse();
+  const gather = twiml.gather({
+    input:'speech'
+  });
+
+  //var twilio_content = "I need to speak with agent";
+  var url, rslt;
+  var type = "Device";
+  var callfaq = true;
+
+  if (twilio_content == ""){
+    rslt = "Hi! I am Claire. I can help with any questions you have on your Nationwide policy, coverage, billing or claim";
+    gather.say({voice:'alice', language: "en-US"},rslt);
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+  }else{//var apiai = require('apiai');    "apiai": "^4.0.3",
+	
+    var text=twilio_content;
+    //console.log("Text Body: " +req.body.text);
+    var app = apiai("e62b488f729b4420ad2a3387808b95a8");
+
+    var request = app.textRequest(text, {
+      sessionId: '786a322af4144c29ad90351cd091c92f11'
+    });
+
+    request.on('response', function(response) {
+      console.log(response);
+      //res.send(response);
+      var intent = response.result.metadata.intentName;
+      console.log("APIAI Result: " +JSON.stringify(response,0,2));
+      console.log("APIAI Intent: " +response.result.metadata.intentName);
+      console.log("APIAI Output Text: " +response.result.fulfillment.speech);
+      var rslt = response.result.fulfillment.speech;
+      gather.say({voice:'alice', language: "en-US"},rslt);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(twiml.toString());	    
+    });
+
+    request.on('error', function(error) {
+      console.log(error);
+      res.send(error);
+    });
+
+    request.end();
+  }
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
