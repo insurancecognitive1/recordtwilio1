@@ -656,7 +656,13 @@ app.post('/policyhelpdesktwilio',function(req, res){
       var rslt = response.result.fulfillment.speech;
       if (intent == "coverage"){
          rslt = "Sure. Please select from the coverage types: 1. Workers Comp  2.Umbrella  3.General";
+      }else if (intent == "endorse"){
+	 rslt = rslt.substring(0,rslt.length-100);
+	 console.log("APIAI Endorse Result: " +rslt);
       }
+	    
+      //Would you like to endorse a policy now?
+	      
       gather.say({voice:'alice', language: "en-US"},rslt);
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());	    
