@@ -635,7 +635,7 @@ app.post('/policyhelpdesktwilio',function(req, res){
     gather.say({voice:'alice', language: "en-US"},rslt);
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
-  }else{//var apiai = require('apiai');    "apiai": "^4.0.3",
+  }else{
 	
     var text=twilio_content;
     //console.log("Text Body: " +req.body.text);
