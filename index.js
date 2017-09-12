@@ -652,7 +652,11 @@ app.post('/policyhelpdesktwilio',function(req, res){
       console.log("APIAI Result: " +JSON.stringify(response,0,2));
       console.log("APIAI Intent: " +response.result.metadata.intentName);
       console.log("APIAI Output Text: " +response.result.fulfillment.speech);
+
       var rslt = response.result.fulfillment.speech;
+      if (intent == "coverage"){
+         rslt = "Sure. Please select from the coverage types: 1. Workers Comp  2.Umbrella  3.General";
+      }
       gather.say({voice:'alice', language: "en-US"},rslt);
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());	    
