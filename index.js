@@ -631,7 +631,7 @@ app.post('/policyhelpdesktwilio',function(req, res){
   var callfaq = true;
 
   if (twilio_content == ""){
-    rslt = "Hi! I am Claire. I can help with any questions you have on your Nationwide policy, coverage, billing or claim";
+    rslt = "Hi! I am ePol. I can help with any questions you have on your Nationwide policy, coverage, billing or claim";
     gather.say({voice:'alice', language: "en-US"},rslt);
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
