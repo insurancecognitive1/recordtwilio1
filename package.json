@@ -14,7 +14,8 @@
     "twilio": "^3.6.1",
     "aws-sdk": "^2.100.0",
     "cheerio": "^1.0.0-rc.2",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "apiai": "^4.0.3"
   },
   "engines": {
     "node": "4.0.0"
