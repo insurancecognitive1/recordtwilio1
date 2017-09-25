@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	  
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	  
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.0/css/bootstrap-combined.min.css" rel="stylesheet">
 <script>
 
+$('.editable').each(function(){
+    this.contentEditable = true;
+});
+	
 var timer;
 	
 $(document).ready(function() {
@@ -68,8 +72,10 @@ $(document).ready(function() {
 	  <!--<button type="button" id="button_signout" class="nextbtn">Sign Out</button>-->
 	  <!--<label for="tab-1" class="tab"><a href="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=https://emailaccess.herokuapp.com&redirect_uri=https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
 	  <!--<label for="tab-1" class="tab"><a href="https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
-          
-			<form class="form-horizontal">
+          <pre id="result_json"></pre>
+	  <div class="editable">Hello...Testing</div>
+			
+	    <form class="form-horizontal">
             <!--<div class="form-group">
               <label class="control-label col-sm-2" for="model-id">Model Id :</label>
               <div class="col-sm-10">
@@ -111,7 +117,7 @@ $(document).ready(function() {
             <!--<pre style="white-space: normal; word-wrap: break-word; padding:0px; margin:0px;" id="result_json">
             </pre>-->
 	    <!--<pre style="height: auto;max-height: 500px;overflow: auto;background-color: #eeeeee;word-break: normal !important;word-wrap: normal !important;white-space: pre !important;" id="result_json"></pre>-->
-	    <pre id="result_json"></pre>		
+		
           </div>
     		</div>
     		<!--<div class="col-md-2"></div>-->
