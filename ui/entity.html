@@ -31,20 +31,15 @@ $(document).ready(function() {
                             if (transcript[i].destinationType == "conversationID") {
 			      document.getElementById('content').innerHTML = "Customer says: " + transcription + "<br>";
                             }else if (transcript[i].destinationType == "sipURI"){
-			      document.getElementById('content').innerHTML = "Clarie says: " + transcription + "<br>";    
+			      document.getElementById('content').innerHTML = "Claire says: " + transcription + "<br>";    
 			    }
                         }
 		    }
-
-                        //var call_div=$('#ongoingcalls');
-                        //call_div.html('');
-                        //call_div.append('<span class="">Ongoing CSR Calls </span><p class="val">'+ongoing_count+'</p>');
-                        //document.getElementById("ongoingcalls").innerHTML = ongoing_count;
-                    } else {
+		    else {
                         console.log("Unable to retrieve the Ongoing count");
                     }
                 } else {		  
-		   document.getElementById('content').innerHTML = "Unable to display the Conversation transcript.";
+		   document.getElementById('content').innerHTML = "Unable to display the transcript.";
                 }
             });
          }, 1000);
