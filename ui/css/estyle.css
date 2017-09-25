@@ -90,6 +90,13 @@ pre {
     white-space: pre !important;
 }
 
+div.editable {
+    width: 300px;
+    height: 400px;
+    border: 2px solid #ccc;
+    padding: 5px;
+}
+
 .nextbtn{
     padding-right: 10px;
     padding-left: 10px;
