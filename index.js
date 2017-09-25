@@ -53,7 +53,6 @@ app.use(bodyParser());
 
 
 app.post('/', function(req, res) {
-	console.log("Voice Gateway Called");
     console.log(JSON.stringify(req.body));
 // res.send(JSON.stringify({ "input": {"text":""},"context": req.body.context, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 
 });
