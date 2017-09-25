@@ -25,14 +25,20 @@ $(document).ready(function() {
                     //var log_arr = JSON.parse("[" + logdetails + "]");
                     var transcript_length = transcript.length;
                     if (transcript_length > 0) {
-			document.getElementById('content').innerHTML = "";
+  			var conv_div=$('#result_json'); 
+			var stmt = "";
+  			conv_div.html('');
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;
                             if (transcript[i].destinationType == "conversationID") {
-			      document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
+			      stmt = "Claire says: " + transcription; 
+			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
 	                    }else if (transcript[i].destinationType == "sipURI"){
-			      document.getElementById('result_json').innerHTML = "Claire says: " + transcription + "<br>";    
-			    }
+			      stmt = "Claire says: " + transcription; 
+			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      //document.getElementById('result_json').innerHTML = "Claire says: " + transcription + "<br>";
+    			    }
                         }
 		    }
 		    else {
