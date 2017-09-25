@@ -29,7 +29,7 @@ $(document).ready(function() {
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;
                             if (transcript[i].destinationType == "conversationID") {
-			      document.getElementById('content').innerHTML = <b> + "Customer says: " + </b> + transcription + <br>;
+			      document.getElementById('content').innerHTML = "Customer says: " + transcription + <br>;
 	                    }else if (transcript[i].destinationType == "sipURI"){
 			      document.getElementById('content').innerHTML = "Claire says: " + transcription + "<br>";    
 			    }
