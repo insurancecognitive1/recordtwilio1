@@ -31,9 +31,10 @@ $(document).ready(function() {
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;				
 			    var time = parseMillisecondsIntoReadableTime(transcript[i].time);
+			    time = "<b>" + "Time: " + "</b>" + time;
                             if (transcript[i].destinationType == "conversationID") {
 			      stmt = "<b>" + "Customer says: " + "</b>" + transcription; 
-			      conv_div.append('<tr><td><span>'+time'</span></td> <td></td> <td>'+stmt+'</td></tr>');
+			      conv_div.append('<tr><td><span>'+time+'</span></td> <td></td> <td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
 	                    }else if (transcript[i].destinationType == "sipURI"){
 			      stmt = "<b>" + "Claire says: " + "</b>" + transcription; 
