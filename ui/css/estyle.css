@@ -91,10 +91,10 @@ pre {
 }
 
 div.editable {
-    width: 700px;
+    width: 750px;
     height: 500px;
-    border: 2px solid #ccc;
-    padding: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
     overflow-x: hidden;
 }
 
