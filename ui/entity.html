@@ -12,37 +12,25 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	  
 <script>
-var emailtoken = "";
-var emailcount = 0;	
-var modelid;
-var apikey;
-var classified_intent = "";
-var policy_number_list = "";
-var to_email_list = "";
-var construct_mail_body = "";
-var identified_intent = "";
-var totalemailcount = "";
-	
+
 var timer;
 	
 $(document).ready(function() {
   //Disable the Previous, Construct and Send Mail button
 	
   timer = setInterval(function() {
-            //Ongoing Call Count
-            var ongoing_count = 0;
-            var pre_conv_id = "";
-            $.get("api/logdetails", function(logdetails) {
-                if (logdetails !== "") {
-                    var log_arr = JSON.parse("[" + logdetails + "]");
-                    var log_arr_length = log_arr.length;
-                    if (log_arr_length > 0) {			
-                        for (var i=0; i<log_arr_length; i++) {
+            $.get("api/logdetails", function(transcript) {
+		console.log("Transcript: " +JSON.stringify(transcript,0,2));
+                if (transcript !== "") {
+                    //var log_arr = JSON.parse("[" + logdetails + "]");
+                    var transcript_length = transcript.length;
+                    if (transcript_length > 0) {			
+                        for (var i=0; i<transcript_length; i++) {
 			    document.getElementById('content').innerHTML = "";
-			    var transcription = log_arr[i].transcription;
-                            if (log_arr[i].destinationType == "conversationID") {
+			    var transcription = transcript[i].transcription;
+                            if (transcript[i].destinationType == "conversationID") {
 			      document.getElementById('content').innerHTML = "Customer says: " + transcription + "<br>";
-                            }else if (log_arr[i].destinationType == "sipURI"){
+                            }else if (transcript[i].destinationType == "sipURI"){
 			      document.getElementById('content').innerHTML = "Clarie says: " + transcription + "<br>";    
 			    }
                         }
