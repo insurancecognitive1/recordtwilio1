@@ -63,8 +63,8 @@ app.post('/', function(req, res) {
     console.log(JSON.stringify(req.body));
     if (req.body != ""){
        entry.time=req.body.time;
-       entry.destinationType=req.body.destinationType;
-       entry.transcription=req.body.transcription;
+       entry.destinationType=req.body.event.destinationType;
+       entry.transcription=req.body.event.transcription;
        transcript.push(entry);
        entry={};
        console.log("Conversation Array Inside the Loop: " +JSON.stringify(transcript,0,2)); 
