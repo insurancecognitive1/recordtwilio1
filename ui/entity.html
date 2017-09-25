@@ -30,12 +30,12 @@ $(document).ready(function() {
 			var stmt = "";			    
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;				
-			    //var time = parseMillisecondsIntoReadableTime(transcript[i].time);
 			    var time = new Date(transcript[i].time * 1000);
 			    time = "<b>" + "Time: " + "</b>" + time;
                             if (transcript[i].destinationType == "conversationID") {
-			      stmt = "<b>" + "Customer says: " + "</b>" + transcription; 
-			      conv_div.append('<tr><td><span>'+time+'</span></td><td>'+stmt+'</td></tr>');
+			      stmt = "<b>" + "Customer says: " + "</b>" + transcription;
+			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      //conv_div.append('<tr><td><span>'+time+'</span></td><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
 	                    }else if (transcript[i].destinationType == "sipURI"){
 			      stmt = "<b>" + "Claire says: " + "</b>" + transcription; 
@@ -51,25 +51,7 @@ $(document).ready(function() {
                 }
             });
          }, 3000);
-	
-	function parseMillisecondsIntoReadableTime(milliseconds){
-  	  //Get hours from milliseconds
-  	  var hours = milliseconds / (1000*60*60);
-  	  var absoluteHours = Math.floor(hours);
-  	  var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
 
-  	  //Get remainder from hours and convert to minutes
-  	  var minutes = (hours - absoluteHours) * 60;
-  	  var absoluteMinutes = Math.floor(minutes);
-  	  var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-
-  	  //Get remainder from minutes and convert to seconds
-  	  var seconds = (minutes - absoluteMinutes) * 60;
-  	  var absoluteSeconds = Math.floor(seconds);
-  	  var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-		
-  	  return h + ':' + m + ':' + s;
-	}
 
 });
 	
