@@ -28,10 +28,10 @@ $(document).ready(function() {
                 if (transcript !== "") {
                     var transcript_length = transcript.length;
                     if (transcript_length > 0) {
-  			var conv_div=$('#result_json'); 
-  			conv_div.html('');
+  			//var conv_div=$('#result_json'); 
+  			//conv_div.html('');
 			var stmt = "";		
-			var rslt_div=$('#resultdiv'); 
+			var rslt_div=$('#result_div'); 
   			rslt_div.html('');
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;				
@@ -39,13 +39,13 @@ $(document).ready(function() {
 			    time = "<b>" + "Time: " + "</b>" + time;
                             if (transcript[i].destinationType == "conversationID") {
 			      stmt = "<b>" + "Customer says: " + "</b>" + transcription;
-			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      //conv_div.append('<tr><td>'+stmt+'</td></tr>');
 			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
 			      //conv_div.append('<tr><td><span>'+time+'</span></td><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
 	                    }else if (transcript[i].destinationType == "sipURI"){
 			      stmt = "<b>" + "Claire says: " + "</b>" + transcription; 
-			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      //conv_div.append('<tr><td>'+stmt+'</td></tr>');
 			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Claire says: " + transcription + "<br>";
     			    }
@@ -75,8 +75,8 @@ $(document).ready(function() {
 	  <!--<button type="button" id="button_signout" class="nextbtn">Sign Out</button>-->
 	  <!--<label for="tab-1" class="tab"><a href="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=https://emailaccess.herokuapp.com&redirect_uri=https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
 	  <!--<label for="tab-1" class="tab"><a href="https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
-          <pre id="result_json"></pre>
-	  <div class="editable" id="resultdiv">Hello...Testing</div>
+          <!--<pre id="result_json"></pre>-->
+	  <div class="editable" id="result_div">Hello...Testing</div>
 			
 	    <form class="form-horizontal">
             <!--<div class="form-group">
