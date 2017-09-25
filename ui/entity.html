@@ -24,25 +24,25 @@ $(document).ready(function() {
                 if (transcript !== "") {
                     //var log_arr = JSON.parse("[" + logdetails + "]");
                     var transcript_length = transcript.length;
-                    if (transcript_length > 0) {			
+                    if (transcript_length > 0) {
+			document.getElementById('content').innerHTML = "";
                         for (var i=0; i<transcript_length; i++) {
-			    document.getElementById('content').innerHTML = "";
 			    var transcription = transcript[i].transcription;
                             if (transcript[i].destinationType == "conversationID") {
-			      document.getElementById('content').innerHTML = "Customer says: " + transcription + "<br>";
-                            }else if (transcript[i].destinationType == "sipURI"){
+			      document.getElementById('content').innerHTML = <b> + "Customer says: " + </b> + transcription + <br>;
+	                    }else if (transcript[i].destinationType == "sipURI"){
 			      document.getElementById('content').innerHTML = "Claire says: " + transcription + "<br>";    
 			    }
                         }
 		    }
 		    else {
-                        console.log("Unable to retrieve the Ongoing count");
+                        console.log("Unable to display the transcript.");
                     }
                 } else {		  
 		   document.getElementById('content').innerHTML = "Unable to display the transcript.";
                 }
             });
-         }, 1000);
+         }, 3000);
 
 });
 	
