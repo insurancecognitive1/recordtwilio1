@@ -26,12 +26,13 @@ $(document).ready(function() {
             $.get("api/logdetails", function(transcript) {
 		console.log("Transcript: " +JSON.stringify(transcript,0,2));
                 if (transcript !== "") {
-                    //var log_arr = JSON.parse("[" + logdetails + "]");
                     var transcript_length = transcript.length;
                     if (transcript_length > 0) {
   			var conv_div=$('#result_json'); 
   			conv_div.html('');
-			var stmt = "";			    
+			var stmt = "";		
+			var rslt_div=$('#resultdiv'); 
+  			rslt_div.html('');
                         for (var i=0; i<transcript_length; i++) {
 			    var transcription = transcript[i].transcription;				
 			    var time = new Date(transcript[i].time * 1000);
@@ -39,11 +40,13 @@ $(document).ready(function() {
                             if (transcript[i].destinationType == "conversationID") {
 			      stmt = "<b>" + "Customer says: " + "</b>" + transcription;
 			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
 			      //conv_div.append('<tr><td><span>'+time+'</span></td><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
 	                    }else if (transcript[i].destinationType == "sipURI"){
 			      stmt = "<b>" + "Claire says: " + "</b>" + transcription; 
 			      conv_div.append('<tr><td>'+stmt+'</td></tr>');
+			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Claire says: " + transcription + "<br>";
     			    }
                         }
@@ -73,7 +76,7 @@ $(document).ready(function() {
 	  <!--<label for="tab-1" class="tab"><a href="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=https://emailaccess.herokuapp.com&redirect_uri=https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
 	  <!--<label for="tab-1" class="tab"><a href="https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
           <pre id="result_json"></pre>
-	  <div class="editable">Hello...Testing</div>
+	  <div class="editable" id="resultdiv">Hello...Testing</div>
 			
 	    <form class="form-horizontal">
             <!--<div class="form-group">
