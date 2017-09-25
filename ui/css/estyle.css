@@ -83,18 +83,19 @@ th, td {
 pre {
     height: auto;
     max-height: 500px;
-    overflow: auto;
-    background-color: #eeeeee;
-    word-break: normal !important;
-    word-wrap: normal !important;
-    white-space: pre !important;
+    overflow-x: hidden;
+    background-color: #ffffff;
+    word-break: keep-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 div.editable {
-    width: 300px;
-    height: 400px;
+    width: 700px;
+    height: 500px;
     border: 2px solid #ccc;
     padding: 5px;
+    overflow-x: hidden;
 }
 
 .nextbtn{
