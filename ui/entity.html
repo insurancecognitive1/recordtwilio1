@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Entity Extraction Test</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/estyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	  
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	  
+<script>
+var emailtoken = "";
+var emailcount = 0;	
+var modelid;
+var apikey;
+var classified_intent = "";
+var policy_number_list = "";
+var to_email_list = "";
+var construct_mail_body = "";
+var identified_intent = "";
+var totalemailcount = "";
+	
+$(document).ready(function() {
+   //Disable the Previous, Construct and Send Mail button	
+   document.getElementById("button_previous").disabled = true;
+   document.getElementById("button_constructmail").disabled = true;
+   document.getElementById("button_sendmail").disabled = true;  
+	
+   $.get("/api/rawemail", function(result) {      	
+       console.log("Actual result: " +result);
+       if (result !== "") {
+         console.log("Json resp: " +JSON.stringify(result,0,2));
+	 var emailcontent;
+	 emailcontent = result.emailcontent;
+	 emailtoken = result.emailtoken; //Assigning the emailtoken initially to global variable
+	 totalemailcount = result.totalemailcount-1; //Assigning the totalemailcount initially to global variable
+	 console.log("Total Email Count: " +totalemailcount);
+	 console.log("Token: " +emailtoken);
+	 //emailcontent = result.replace(/<br\s*[\/]?>/gi, "newbreakline");
+	 //console.log("replaced breakline Json resp: " +JSON.stringify(emailcontent,0,2));
+	 //emailcontent = $(result).text();    /////////
+	 //emailcontent = $(emailcontent).text();
+	 //emailcontent = emailcontent.replace(/(\r\n|\n)/gm,"");
+	 //console.log("Before Text format: " +JSON.stringify(emailcontent,0,2));
+	 //emailcontent = emailcontent.replace(/newbreakline/gm,"\n");
+	 //console.log("After Text format: " +JSON.stringify(emailcontent,0,2));
+         //$('#content').text(emailcontent);
+	document.getElementById('content').innerHTML = emailcontent;
+      }
+   }); 
+	
+   //To get the model id and api key 
+   $.get("/api/modeldata", function(result) {
+     console.log("Model ID and API Key: " +JSON.stringify(result,0,2));
+     var resp = JSON.stringify(result,0,2);
+     var parsed_resp = JSON.parse('{"result":' + resp + '}');
+     modelid = parsed_resp.result.model_id || 'fa9dc82c-d359-48cb-9d1a-ffbac6c3774b';
+     apikey = parsed_resp.result.api_key || '90fe9c14ea3f03d20366c272f2733fccabfd27fd';
+     //document.getElementById('model-id').value = parsed_resp.result.model_id;   //Removed model id label in the entity app
+     //document.getElementById('api-key').value = parsed_resp.result.api_key;     //Removed api key label in the entity app
+   });	
+});
+	
+</script>
+	  
+</head>
+
+  <body>
+	<div class="container">
+  		<div class="row">
+    		<div class="col-md-2"></div>
+    		<div class="col-md-8">
+          <h1>Enter Data </h1>
+	  <!--<button type="button" id="button_signout" class="nextbtn">Sign Out</button>-->
+	  <label for="tab-1" class="tab"><a href="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=https://emailaccess.herokuapp.com&redirect_uri=https://emailaccess.herokuapp.com/signout">SignOut</a></label>
+	  <!--<label for="tab-1" class="tab"><a href="https://emailaccess.herokuapp.com/signout">SignOut</a></label>-->
+          
+			<form class="form-horizontal">
+            <!--<div class="form-group">
+              <label class="control-label col-sm-2" for="model-id">Model Id :</label>
+              <div class="col-sm-10">
+                <input type="model-id" class="form-control" id="model-id" placeholder="Enter Model Id ">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="api-key">API Key :</label>
+              <div class="col-sm-10">
+                <input type="api-key" class="form-control" id="api-key" placeholder="Enter API Key ">
+              </div>
+            </div>-->
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                  <label for="content">Content :</label>		
+		  <button type="button" id="button_next" class="nextbtn">Next</button>
+		  <button type="button" id="button_previous" class="previousbtn">Previous</button>
+                  <textarea class="form-control" rows="20" id="content"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="button_classify" class="btn btn-default">Classify</button>
+		<button type="button" id="button_submit" class="btn btn-default">Annotate</button>
+		<button type="button" id="button_constructmail" class="btn btn-default">Construct Mail</button>
+		<button type="button" id="button_sendmail" class="btn btn-default">Send Mail</button>
+		<!--<button type="button" id="button_next" class="btn btn-default">Next</button>
+		<button type="button" id="button_previous" class="btn btn-default">Previous</button>-->
+              </div>
+            </div>
+            <!--<div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="button_submit" class="btn btn-default">Annotate</button>
+              </div>
+            </div>
+	    <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="button_constructmail" class="btn btn-default">Construct Mail</button>
+		<button type="button" id="button_sendmail" class="btn btn-default">Send Mail</button>
+              </div>
+            </div>-->
+	    <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+            	<pre style="word-break: keep-all;word-wrap: break-word;white-space: pre-wrap;" id="result_json"></pre>
+                <!--<pre class="wordwarp" id="result_json"></pre>-->
+	      </div>
+            </div>
+          </form>
+          <div>
+            <!--<pre style="white-space: normal; word-wrap: break-word; padding:0px; margin:0px;" id="result_json">
+            </pre>-->
+          </div>
+    		</div>
+    		<!--<div class="col-md-2"></div>-->
+  		</div>
+  	</div>
+  </body>
+
+  <!-- Script -->
+  <script>
+  
+ $("#button_signout").click(function(){
+     console.log("Sign Out the App...");
+     $.post("/signout", function(result) {      	
+        console.log("Logged result: " +result);
+	window.location.href ="https://emailaccess.herokuapp.com/";
+     });   
+  });
+	  
+  $("#button_next").click(function(){
+     console.log("Retrieving next email content...");
+     emailcount = emailcount + 1;
+     var email_req = {"emailtoken": emailtoken, "emailcount": emailcount};
+     $.post("/api/emailcontent", email_req, function(result) {      	
+        console.log("Email Content: " +result);
+        if (result !== "") {
+           //console.log("Json resp: " +JSON.stringify(result,0,2));
+	   document.getElementById('content').innerHTML = result;
+	   document.getElementById('result_json').innerHTML = "";  //clearing the value in result area
+	   //Disable the Construct and Send Mail button	   
+   	   document.getElementById("button_constructmail").disabled = true;
+           document.getElementById("button_sendmail").disabled = true;
+       	}
+     }); 
+	
+     // Disable the next button once the last message received 
+     if (emailcount == totalemailcount){
+	document.getElementById("button_next").disabled = true;
+	document.getElementById("button_previous").disabled = false;
+     }else{
+	document.getElementById("button_next").disabled = false;
+	document.getElementById("button_previous").disabled = false; 
+     }
+  });
+	  
+  $("#button_previous").click(function(){
+     console.log("Retrieving previous email content...");
+     emailcount = emailcount - 1;
+     if (emailcount < 0){
+       emailcount = 0;
+     }
+     // Disable the previous button once the first message received   
+     if (emailcount == 0){
+       document.getElementById("button_previous").disabled = true;  
+       document.getElementById("button_next").disabled = false;  
+     }else{
+       document.getElementById("button_previous").disabled = false;  
+       document.getElementById("button_next").disabled = false;  
+     }
+	  
+     var email_req = {"emailtoken": emailtoken, "emailcount": emailcount};
+     $.post("/api/emailcontent", email_req, function(result) {      	
+        console.log("Email Content: " +result);
+        if (result !== "") {
+           //console.log("Json resp: " +JSON.stringify(result,0,2));
+	   document.getElementById('content').innerHTML = result;
+	   document.getElementById('result_json').innerHTML = "";  //clearing the value in result area
+	   //Disable the Construct and Send Mail button	   
+   	   document.getElementById("button_constructmail").disabled = true;
+           document.getElementById("button_sendmail").disabled = true;
+       	}
+     });   
+  });
+
+  //To construct the mail content  
+  $("#button_constructmail").click(function(){
+     console.log("Construct Email...");	  
+     document.getElementById('result_json').innerHTML = ""; //clearing the value in result area
+	  
+     var construct_mail_subject = "";
+     var coiwebsite = "this";
+     coiwebsite = coiwebsite.link("https://www.google.com");
+	  
+     construct_mail_body = "";
+     identified_intent = classified_intent.substring(1,classified_intent.length - 1);
+	  
+     if (identified_intent == "Certificate of Insurance"){
+	construct_mail_subject = "To: " + to_email_list + "<br>" + "Subject: " + identified_intent + "<br>" + "<br>";
+	construct_mail_body = "Thank you for reaching out to Insurance Cognitive! We are glad to help you on your certificate request for " + "<b>" + policy_number_list + "</b>" + ". Please follow the below steps:"
+	  		       + "<br>" + "<br>" + "1. You can download your policy certificate by clicking on " + coiwebsite + " link"
+			       + "<br>" + "2. When prompted for password please enter your date of birth in MMDDYYYY format"
+	     		       + "<br>" + "<br>" + "If you have any questions or issues, please reply back to insurancecognitive1@outlook.com"
+	     		       + "<br>"  + "<br>" + "Thanks!"; 
+	document.getElementById('result_json').innerHTML = construct_mail_subject + construct_mail_body;
+	document.getElementById("button_sendmail").disabled = false; //enable the sendmail button
+     }else{
+	document.getElementById('result_json').innerHTML = "Sorry, We are unable to construct the mail. Please try again after sometime.";
+     }
+     document.getElementById("button_constructmail").disabled = true; //disable the constructmail button once constructed the mail.    
+  });
+  
+  //To send the mail to agent/user  
+  $("#button_sendmail").click(function(){
+     console.log("Send Email to Agent/User...");	  
+     document.getElementById('result_json').innerHTML = ""; //clearing the value in result area
+     //document.getElementById('result_json').innerHTML = "We have successfully sent the mail to " + "<b>" + to_email_list + "</b>";  
+	  
+     var send_req = {"emailtoken": emailtoken, "subject" : identified_intent, "to_address" : to_email_list, "body_content" : construct_mail_body};
+     $.post("/api/sendmail", send_req, function(result) {      	
+        console.log("Send Mail response: " +JSON.stringify(result,0,2));
+	var rslt = JSON.stringify(result,0,2);
+        if (rslt.indexOf("statusCode") > -1 == true) {
+           console.log("Mail Send Error: " +JSON.stringify(result,0,2));
+	   document.getElementById('result_json').innerHTML = "Sorry, there is an issue to send a mail to " + "<b>" + to_email_list + "</b>" + ". Please try again after sometime"; 
+       	}else{
+	   console.log("Send Mail Json resp: " +JSON.stringify(result,0,2));
+	   document.getElementById('result_json').innerHTML = "We have successfully sent the mail to " + "<b>" + to_email_list + "</b>"; 
+	}
+     });  
+     document.getElementById("button_sendmail").disabled = true; //disable the sendmail button once mail sent to receipt. 
+  });
+	  
+
+  $("#button_classify").click(function(){
+     console.log("Analysing the Email content");
+     document.getElementById('result_json').innerHTML = ""; //clearing the value in result area
+     //Disable the Construct and Send Mail button	   
+     document.getElementById("button_constructmail").disabled = true;
+     document.getElementById("button_sendmail").disabled = true;
+	  
+     var content=document.getElementById('content').value;
+     //content = '"' + content + '"';
+     var context = {};
+     content = content.replace(/(\r\n|\n|\r|\t)/gm,"");
+     var email_data = {
+        'text': content,
+        'context': context
+     }; 
+     console.log(email_data);
+     $.post("/api/emailclassify", email_data, function(result) {      	
+       console.log("Json resp: " +result);
+       if (result !== "") {
+          var resp = JSON.parse('{"result":' + result + '}');
+          //  console.log("Json resp: " +JSON.stringify(resp,0,2));
+	  classified_intent = JSON.stringify(resp.result.intents[0].intent,0,2);
+          classified_intent = classified_intent.replace(/_/gm," ");
+		
+	  document.getElementById('result_json').innerHTML = "Classified as " + "<b>" + classified_intent + "</b>";
+          //$('#result_json').text('Classified as ' +classified_intent);
+          // if (!resp.result.hasOwnProperty("code")) { }
+       	}
+      });   
+   });
+
+   $("#button_submit").click(function(){	
+      //Model ID and API Key Validation
+      if (modelid == "" || apikey == ""){
+	 alert("Please provide the Model ID and API Key in Login Page!");
+      } 
+      console.log("Annotation is in progress");
+      document.getElementById('result_json').value = ""; //clearing the value in result area
+      //var model_id=document.getElementById('model-id').value;  //Removed model id label in the entity app
+      //var api_key=document.getElementById('api-key').value;  //Removed api key label in the entity app
+      var model_id = modelid;
+      var api_key = apikey;
+      var content=document.getElementById('content').value;
+      model_id = model_id || 'fa9dc82c-d359-48cb-9d1a-ffbac6c3774b';
+      api_key = api_key || '90fe9c14ea3f03d20366c272f2733fccabfd27fd';
+
+     // model_id = "4b0b62a3-cc34-4f3a-99b5-341c7e8e5efd";
+     // api_key = "90fe9c14ea3f03d20366c272f2733fccabfd27fd";
+	   
+      var url="https://gateway-a.watsonplatform.net/calls/text/TextGetRankedNamedEntities?showSourceText=0&model="+model_id+"&apikey="+api_key+"&outputMode=json";
+      $.post(url,
+      {
+        'text':content
+      },
+      function(data, status){
+         console.log("Annotated Data!");
+//		var JSONResult=JSON.stringify(data,undefined, 2);
+//		$('#result_json').text(JSONResult);
+//		$('#result_json').text(new XMLSerializer().serializeToString(data));
+	 //$('#result_json').text(JSON.stringify(data,0,2));
+	 console.log("Length: " +data.entities.length);
+	 console.log(JSON.stringify(data.entities,0,2));
+	 var entities_length = data.entities.length;
+	 var annotate_rslt = "";
+	 var entity_type, entity_text;
+	 policy_number_list = "";
+	 to_email_list = "";
+	 for (var i = 0; i < entities_length; i++){
+	     entity_type = data.entities[i].type;
+	     entity_text = data.entities[i].text;
+	     entity_type = entity_type.replace(/_/gm," ");
+	     annotate_rslt += entity_type + " : " + entity_text + "</br>";
+	     
+	     if (entity_type == "to email"){
+		to_email_list = to_email_list + entity_text + ";";
+	     }else if (entity_type == "policy number"){
+		policy_number_list = policy_number_list + "," + entity_text;
+	     }     
+	 }
+	 policy_number_list = policy_number_list.replace(",", ""); //To remove the comma in the prefix
+	 document.getElementById('result_json').innerHTML = annotate_rslt; 
+   	 document.getElementById("button_constructmail").disabled = false; //Enable the Construct Mail button	 
+	 document.getElementById("button_sendmail").disabled = true; //Disable the Send Mail button	
+        // $('#result_json').text(JSON.stringify(data,undefined, 2)); -- Original code
+      });
+   });
+//	function objectToXml(obj) {
+//        var xml = '';
+//
+//        for (var prop in obj) {
+//            if (!obj.hasOwnProperty(prop)) {
+//                continue;
+//            }
+//
+//            if (obj[prop] == undefined)
+//                continue;
+//
+//            xml += "<" + prop + ">";
+//            if (typeof obj[prop] == "object")
+//                xml += objectToXml(new Object(obj[prop]));
+//            else
+//                xml += obj[prop];
+//
+//            xml += "<!--" + prop + "-->";
+//        }
+//
+//        return xml;
+//    }
+
+  </script>
+</html>
