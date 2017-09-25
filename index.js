@@ -42,6 +42,9 @@ var contacts_url = 'https://www2.chubb.com/us-en/individuals-families/l-chubb-re
 var billing_url = 'https://www2.chubb.com/us-en/individuals-families/about-billing.aspx';
 var policyholders_url = 'https://www2.chubb.com/us-en/individuals-families/already-a-customer.aspx';
 
+var transcript=[];
+var entry={};
+
 app.set('port', (process.env.PORT || 5000));
 
 //app.use(express.static(__dirname + '/public'));
@@ -49,22 +52,39 @@ app.set('port', (process.env.PORT || 5000));
     extended: true
 }));
 app.use(bodyParser.json());*/
+app.use(express.static(__dirname + '/ui'));
 app.use(bodyParser());
 
+app.get('/', function(req, res) {
+   res.sendFile('ui/entity.html', { root : __dirname});
+});
 
 app.post('/', function(req, res) {
     console.log(JSON.stringify(req.body));
-// res.send(JSON.stringify({ "input": {"text":""},"context": req.body.context, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 
+    if (req.body != ""){
+       entry.time=req.body.time;
+       entry.destinationType=req.body.destinationType;
+       entry.transcription=req.body.transcription;
+       transcript.push(entry);
+       entry={};
+       console.log("Conversation Array Inside the Loop: " +JSON.stringify(transcript,0,2)); 
+    }
+   //res.send(JSON.stringify({ "input": {"text":""},"context": req.body.context, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 
 });
 
+//To get the transcription and send the details to client side
+app.get('/api/logdetails', function(req, res) {
+  console.log("Conversation Array in Log Details Endpoint: " +JSON.stringify(transcript,0,2));
+  res.send(transcript);
+});
 
 app.post('/v1/workspaces/270132c6-0104-4509-a64f-a21ef33fb47f/message', function(req, res) {
-        console.log('Reached post message conversation');
-	console.log(JSON.stringify(req.body));
-	console.log('Sending data back');
-console.log(JSON.stringify({ "input": {"text":""},"context": {}, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 	
- res.json({ "input": {"text":""},"context": {}, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} }); 
-	console.log('sent message');
+  console.log('Reached post message conversation');
+  console.log(JSON.stringify(req.body));
+  console.log('Sending data back');
+  console.log(JSON.stringify({ "input": {"text":""},"context": {}, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} })); 	
+  res.json({ "input": {"text":""},"context": {}, "entities": [], "intents": [], "output": {"log_messages": [],"text": ["Hello world"],"nodes_visited":[]} }); 
+  console.log('sent message');
 });
 
 app.get('/', function(req, res) {
