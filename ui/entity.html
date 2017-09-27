@@ -37,13 +37,14 @@ $(document).ready(function() {
 			    var transcription = transcript[i].transcription;				
 			    var time = new Date(transcript[i].time * 1000);
 			    time = "<b>" + "Time: " + "</b>" + time;
-                            if (transcript[i].destinationType == "conversationID") {
+			    console.log("Time: " +time);
+                            if (transcript[i].destinationType == "conversationID" && transcription !== "vgwPostResponseTimeout") {
 			      stmt = "<b>" + "Customer says: " + "</b>" + transcription;
 			      //conv_div.append('<tr><td>'+stmt+'</td></tr>');
 			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
 			      //conv_div.append('<tr><td><span>'+time+'</span></td><td>'+stmt+'</td></tr>');
 			      //document.getElementById('result_json').innerHTML = "Customer says: " + transcription + "<br>";
-	                    }else if (transcript[i].destinationType == "sipURI"){
+	                    }else if (transcript[i].destinationType == "sipURI" && transcription !== ""){
 			      stmt = "<b>" + "Claire says: " + "</b>" + transcription; 
 			      //conv_div.append('<tr><td>'+stmt+'</td></tr>');
 			      rslt_div.append('<tr><td>'+stmt+'</td></tr>');
