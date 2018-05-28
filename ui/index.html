@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="http://bridgeit.github.io/bridgeit.js/src/bridgeit.js"></script>
+    <title>QRCodeScanner</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">-->
+
+    <!--<link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/mobile.css">-->
+
+</head>
+
+<body>
+
+    <a id="scanBtn" style="width: 200px; height:80px;border:1px solid #333;margin:10px 0;background-color: blue;text-decoration:none;color:#333;font-size:16px;line-height:30px;display:block;box-sizing:border-box;" onclick="bridgeit.scan('scanBtn',onAfterCaptureScan);">Scan a Code</a>
+    <div id="scans">Result: </div>
+
+    <script>
+    function onAfterCaptureScan(event){
+      var text = event.value;
+      console.log("Test")
+      document.getElementById("scans").innerHTML = text;
+    }
+    </script>
+
+
+</body>
+
+</html>
