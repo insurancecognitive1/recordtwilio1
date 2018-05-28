@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--<script type="text/javascript" src="https://bridgeit.github.io/bridgeit.js/src/bridgeit.js"></script>-->
-    <script type="text/javascript" src="bridgeit.js"></script>
+    <!--<script type="text/javascript" src="bridgeit.js"></script>-->
+    <script type="text/javascript" src="js/instascan.min.js"></script>
     <title>QRCodeScanner</title>
 
     <!-- Latest compiled and minified CSS -->
@@ -24,7 +25,7 @@
 
 <body>
 
-    <a id="scanBtn" style="width: 200px; height:80px;border:1px solid #333;margin:10px 0;background-color: blue;text-decoration:none;color:#333;font-size:16px;line-height:30px;display:block;box-sizing:border-box;" onclick="bridgeit.scan('scanBtn',onAfterCaptureScan);">Scan a Code</a>
+<!--<a id="scanBtn" style="width: 200px; height:80px;border:1px solid #333;margin:10px 0;background-color: blue;text-decoration:none;color:#333;font-size:16px;line-height:30px;display:block;box-sizing:border-box;" onclick="bridgeit.scan('scanBtn',onAfterCaptureScan);">Scan a Code</a>
     <div id="scans">Result: </div>
 
     <script>
@@ -33,7 +34,25 @@
       console.log("Test")
       document.getElementById("scans").innerHTML = text;
     }
-    </script>
+    </script>-->
+
+
+    <video id="preview"></video>
+    <script type="text/javascript">
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {
+        console.log(content);
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+      </script>
 
 
 </body>
