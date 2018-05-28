@@ -56,7 +56,7 @@ app.use(express.static(__dirname + '/ui'));
 app.use(bodyParser());
 
 app.get('/', function(req, res) {
-   res.sendFile('ui/entity.html', { root : __dirname});
+   res.sendFile('ui/index.html', { root : __dirname});
 });
 
 app.post('/', function(req, res) {
