@@ -38,16 +38,22 @@
 
 
     <video id="preview"></video>
+    <div id="cameras">Cameras: </div>
+    <div id="scans">Result: </div>
     <script type="text/javascript">
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       scanner.addListener('scan', function (content) {
         console.log("test: "+content);
+        document.getElementById("scans").innerHTML = content;
       });
       Instascan.Camera.getCameras().then(function (cameras) {
+          document.getElementById("cameras").innerHTML = JSON.stringify(cameras,0,2);
+          console.log("Cameras: "+JSON.stringify(cameras,0,2));
         if (cameras.length > 0) {
           scanner.start(cameras[1]);
         } else {
           console.error('No cameras found.');
+          //scanner.stop();
         }
       }).catch(function (e) {
         console.error(e);
